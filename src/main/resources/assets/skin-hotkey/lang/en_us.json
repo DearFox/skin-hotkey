@@ -1,0 +1,14 @@
+{
+  "option.skin-hotkey.group.category": "Skin Hotkey - Groups",
+  "option.skin-key-all": "All layer on/off [everything but the cape]",
+  "option.skin-key-top": "Top of clothes on/off [hands and body]",
+  "option.skin-key-legs": "Bottom of clothes on/off [legs]",
+  "option.skin-hotkey.part.category": "Skin Hotkey - Parts",
+  "option.skin-key-hat": "Hat on/off",
+  "option.skin-key-jacket": "Jacket on/off",
+  "option.skin-key-right-sleeve": "Right sleeve on/off",
+  "option.skin-key-left-sleeve": "Left sleeve on/off",
+  "option.skin-key-right-pains-leg": "Right pains leg on/off",
+  "option.skin-key-left-pains-leg": "Left pains leg on/off",
+  "option.skin-key-cape": "Cape on/off"
+}
