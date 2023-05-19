@@ -1,0 +1,14 @@
+{
+  "option.skin-hotkey.group.category": "Skin Hotkey - Группы",
+  "option.skin-key-all": "Все вкл/выкл [все слои кроме плаща]",
+  "option.skin-key-top": "Верх одежды вкл/выкл [руки и тело]",
+  "option.skin-key-legs": "Низ одежды вкл/выкл [ноги]",
+  "option.skin-hotkey.part.category": "Skin Hotkey - Части",
+  "option.skin-key-hat": "Голова вкл/выкл",
+  "option.skin-key-jacket": "Куртка вкл/выкл",
+  "option.skin-key-right-sleeve": "Правая рука вкл/выкл",
+  "option.skin-key-left-sleeve": "Левая рука вкл/выкл",
+  "option.skin-key-right-pains-leg": "Правая нога вкл/выкл",
+  "option.skin-key-left-pains-leg": "Левая нога вкл/выкл",
+  "option.skin-key-cape": "Плащ вкл/выкл"
+}

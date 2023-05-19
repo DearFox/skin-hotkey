@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "skin-hotkey",
+  "version": "${version}",
+  "name": "Skin Hotkey",
+  "description": "Switch skin layers by hotkeys",
+  "authors": [
+    "DearFox"
+  ],
+  "contact": {
+    "website": "https://DearFox.OwO.name",
+    "repo": "https://github.com/DearFox"
+  },
+  "license": "MIT",
+  "icon": "assets/skin-hotkey/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "name.owo.dearfox.skinhotkey.client.SkinHotkeyClient"
+    ],
+    "main": [
+      "name.owo.dearfox.skinhotkey.SkinHotkey"
+    ]
+  },
+  "mixins": [
+    "skin-hotkey.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": "1.19.*"
+  }
+}
