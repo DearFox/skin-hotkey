@@ -4,7 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.PlayerModelPart;
-import net.minecraftforge.client.ClientRegistry;
+//import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -19,7 +20,7 @@ import org.lwjgl.glfw.GLFW;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("skinhotkey")
 public class skinhotkey {
-    //private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     //Группы
     private static final KeyMapping skin_key_all = new KeyMapping(
             "option.skin-key-all", KeyConflictContext.UNIVERSAL, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN,
@@ -67,24 +68,41 @@ public class skinhotkey {
     final boolean[] SkinHotkeyLegs = {false};
     public skinhotkey() {
         // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerKeyBinding);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
-
-    private void setup(final FMLCommonSetupEvent event) {
+    // > = 1.19
+    //private void setup(final FMLCommonSetupEvent event) {
         //Группы
-        ClientRegistry.registerKeyBinding(skin_key_all);
-        ClientRegistry.registerKeyBinding(skin_key_top);
-        ClientRegistry.registerKeyBinding(skin_key_legs);
+        //ClientRegistry.registerKeyBinding(skin_key_all);
+        //ClientRegistry.registerKeyBinding(skin_key_top);
+        //ClientRegistry.registerKeyBinding(skin_key_legs);
+        ////Части
+        //ClientRegistry.registerKeyBinding(skin_key_hat);
+        //ClientRegistry.registerKeyBinding(skin_key_jacket);
+        //ClientRegistry.registerKeyBinding(skin_key_right_sleeve);
+        //ClientRegistry.registerKeyBinding(skin_key_left_sleeve);
+        //ClientRegistry.registerKeyBinding(skin_key_right_pains_leg);
+        //ClientRegistry.registerKeyBinding(skin_key_left_pains_leg);
+        //ClientRegistry.registerKeyBinding(skin_key_cape);
+
+    //}
+
+    private void registerKeyBinding(RegisterKeyMappingsEvent event) {
+        // 1.19.4 +
+        //Группы
+        event.register(skin_key_all);
+        event.register(skin_key_top);
+        event.register(skin_key_legs);
         //Части
-        ClientRegistry.registerKeyBinding(skin_key_hat);
-        ClientRegistry.registerKeyBinding(skin_key_jacket);
-        ClientRegistry.registerKeyBinding(skin_key_right_sleeve);
-        ClientRegistry.registerKeyBinding(skin_key_left_sleeve);
-        ClientRegistry.registerKeyBinding(skin_key_right_pains_leg);
-        ClientRegistry.registerKeyBinding(skin_key_left_pains_leg);
-        ClientRegistry.registerKeyBinding(skin_key_cape);
+        event.register(skin_key_hat);
+        event.register(skin_key_jacket);
+        event.register(skin_key_right_sleeve);
+        event.register(skin_key_left_sleeve);
+        event.register(skin_key_right_pains_leg);
+        event.register(skin_key_left_pains_leg);
+        event.register(skin_key_cape);
     }
 
     @SubscribeEvent
@@ -119,156 +137,163 @@ public class skinhotkey {
 
         // вкл/выкл Голова
         while (skin_key_hat.consumeClick()) {
+            //LOGGER.info("Голова");
             Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
-            if (skin_key_hat.getKey().equals(skin_key_jacket.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
-            }
-            if (skin_key_hat.getKey().equals(skin_key_right_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
-            }
-            if (skin_key_hat.getKey().equals(skin_key_left_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
-            }
-            if (skin_key_hat.getKey().equals(skin_key_right_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
-            }
-            if (skin_key_hat.getKey().equals(skin_key_left_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
-            }
-            if (skin_key_hat.getKey().equals(skin_key_cape.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
-            }
+            //if (skin_key_hat.getKey().equals(skin_key_jacket.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
+            //}
+            //if (skin_key_hat.getKey().equals(skin_key_right_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
+            //}
+            //if (skin_key_hat.getKey().equals(skin_key_left_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
+            //}
+            //if (skin_key_hat.getKey().equals(skin_key_right_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
+            //}
+            //if (skin_key_hat.getKey().equals(skin_key_left_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
+            //}
+            //if (skin_key_hat.getKey().equals(skin_key_cape.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
+            //}
         }
         // вкл/выкл Тело
         while (skin_key_jacket.consumeClick()) {
-            if (skin_key_jacket.getKey().equals(skin_key_hat.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
-            }
+            //LOGGER.info("Тело");
+            //if (skin_key_jacket.getKey().equals(skin_key_hat.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
+            //}
             Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
-            if (skin_key_jacket.getKey().equals(skin_key_right_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
-            }
-            if (skin_key_jacket.getKey().equals(skin_key_left_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
-            }
-            if (skin_key_jacket.getKey().equals(skin_key_right_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
-            }
-            if (skin_key_jacket.getKey().equals(skin_key_left_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
-            }
-            if (skin_key_jacket.getKey().equals(skin_key_cape.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
-            }
+            //if (skin_key_jacket.getKey().equals(skin_key_right_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
+            //}
+            //if (skin_key_jacket.getKey().equals(skin_key_left_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
+            //}
+            //if (skin_key_jacket.getKey().equals(skin_key_right_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
+            //}
+            //if (skin_key_jacket.getKey().equals(skin_key_left_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
+            //}
+            //if (skin_key_jacket.getKey().equals(skin_key_cape.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
+            //}
         }
         // вкл/выкл Рука правая
         while (skin_key_right_sleeve.consumeClick()) {
-            if (skin_key_right_sleeve.getKey().equals(skin_key_hat.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
-            }
-            if (skin_key_right_sleeve.getKey().equals(skin_key_jacket.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
-            }
+            //LOGGER.info("Рука правая");
+            //if (skin_key_right_sleeve.getKey().equals(skin_key_hat.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
+            //}
+            //if (skin_key_right_sleeve.getKey().equals(skin_key_jacket.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
+            //}
             Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
-            if (skin_key_right_sleeve.getKey().equals(skin_key_left_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
-            }
-            if (skin_key_right_sleeve.getKey().equals(skin_key_right_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
-            }
-            if (skin_key_right_sleeve.getKey().equals(skin_key_left_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
-            }
-            if (skin_key_right_sleeve.getKey().equals(skin_key_cape.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
-            }
+            //if (skin_key_right_sleeve.getKey().equals(skin_key_left_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
+            //}
+            //if (skin_key_right_sleeve.getKey().equals(skin_key_right_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
+            //}
+            //if (skin_key_right_sleeve.getKey().equals(skin_key_left_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
+            //}
+            //if (skin_key_right_sleeve.getKey().equals(skin_key_cape.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
+            //}
         }
         // вкл/выкл Рука левая
         while (skin_key_left_sleeve.consumeClick()) {
-            if (skin_key_left_sleeve.getKey().equals(skin_key_hat.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
-            }
-            if (skin_key_left_sleeve.getKey().equals(skin_key_jacket.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
-            }
-            if (skin_key_left_sleeve.getKey().equals(skin_key_right_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
-            }
+            //LOGGER.info("Рука левая");
+            //if (skin_key_left_sleeve.getKey().equals(skin_key_hat.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
+            //}
+            //if (skin_key_left_sleeve.getKey().equals(skin_key_jacket.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
+            //}
+            //if (skin_key_left_sleeve.getKey().equals(skin_key_right_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
+            //}
             Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
-            if (skin_key_left_sleeve.getKey().equals(skin_key_right_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
-            }
-            if (skin_key_left_sleeve.getKey().equals(skin_key_left_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
-            }
-            if (skin_key_left_sleeve.getKey().equals(skin_key_cape.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
-            }
+            //if (skin_key_left_sleeve.getKey().equals(skin_key_right_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
+            //}
+            //if (skin_key_left_sleeve.getKey().equals(skin_key_left_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
+            //}
+            //if (skin_key_left_sleeve.getKey().equals(skin_key_cape.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
+            //}
         }
         // вкл/выкл Нога правая
         while (skin_key_right_pains_leg.consumeClick()) {
-            if (skin_key_right_pains_leg.getKey().equals(skin_key_hat.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
-            }
-            if (skin_key_right_pains_leg.getKey().equals(skin_key_jacket.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
-            }
-            if (skin_key_right_pains_leg.getKey().equals(skin_key_right_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
-            }
-            if (skin_key_right_pains_leg.getKey().equals(skin_key_left_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
-            }
+            //LOGGER.info("Нога правая");
+            //if (skin_key_right_pains_leg.getKey().equals(skin_key_hat.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
+            //}
+            //if (skin_key_right_pains_leg.getKey().equals(skin_key_jacket.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
+            //}
+            //if (skin_key_right_pains_leg.getKey().equals(skin_key_right_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
+            //}
+            //if (skin_key_right_pains_leg.getKey().equals(skin_key_left_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
+            //}
             Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
-            if (skin_key_right_pains_leg.getKey().equals(skin_key_left_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
-            }
-            if (skin_key_right_pains_leg.getKey().equals(skin_key_cape.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
-            }
+            //if (skin_key_right_pains_leg.getKey().equals(skin_key_left_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
+            //}
+            //if (skin_key_right_pains_leg.getKey().equals(skin_key_cape.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
+            //}
         }
         // вкл/выкл Нога левая
         while (skin_key_left_pains_leg.consumeClick()) {
-            if (skin_key_left_pains_leg.getKey().equals(skin_key_hat.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
-            }
-            if (skin_key_left_pains_leg.getKey().equals(skin_key_jacket.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
-            }
-            if (skin_key_left_pains_leg.getKey().equals(skin_key_right_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
-            }
-            if (skin_key_left_pains_leg.getKey().equals(skin_key_left_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
-            }
-            if (skin_key_left_pains_leg.getKey().equals(skin_key_right_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
-            }
+            //LOGGER.info("Нога левая");
+            //if (skin_key_left_pains_leg.getKey().equals(skin_key_hat.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
+            //}
+            //if (skin_key_left_pains_leg.getKey().equals(skin_key_jacket.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
+            //}
+            //if (skin_key_left_pains_leg.getKey().equals(skin_key_right_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
+            //}
+            //if (skin_key_left_pains_leg.getKey().equals(skin_key_left_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
+            //}
+            //if (skin_key_left_pains_leg.getKey().equals(skin_key_right_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
+            //}
             Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
-            if (skin_key_left_pains_leg.getKey().equals(skin_key_cape.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
-            }
+            //if (skin_key_left_pains_leg.getKey().equals(skin_key_cape.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
+            //}
         }
         // вкл/выкл Плащ
         while (skin_key_cape.consumeClick()) {
-            if (skin_key_cape.getKey().equals(skin_key_hat.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
-            }
-            if (skin_key_cape.getKey().equals(skin_key_jacket.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
-            }
-            if (skin_key_cape.getKey().equals(skin_key_right_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
-            }
-            if (skin_key_cape.getKey().equals(skin_key_left_sleeve.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
-            }
-            if (skin_key_cape.getKey().equals(skin_key_right_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
-            }
-            if (skin_key_cape.getKey().equals(skin_key_left_pains_leg.getKey())){
-                Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
-            }
+            //LOGGER.info("Плащ");
+            //if (skin_key_cape.getKey().equals(skin_key_hat.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.HAT, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.HAT));
+            //}
+            //if (skin_key_cape.getKey().equals(skin_key_jacket.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.JACKET, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.JACKET));
+            //}
+            //if (skin_key_cape.getKey().equals(skin_key_right_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_SLEEVE));
+            //}
+            //if (skin_key_cape.getKey().equals(skin_key_left_sleeve.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_SLEEVE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_SLEEVE));
+            //}
+            //if (skin_key_cape.getKey().equals(skin_key_right_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.RIGHT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.RIGHT_PANTS_LEG));
+            //}
+            //if (skin_key_cape.getKey().equals(skin_key_left_pains_leg.getKey())){
+            //    Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.LEFT_PANTS_LEG, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.LEFT_PANTS_LEG));
+            //}
             Minecraft.getInstance().options.toggleModelPart(PlayerModelPart.CAPE, !Minecraft.getInstance().options.isModelPartEnabled(PlayerModelPart.CAPE));
         }
     }
